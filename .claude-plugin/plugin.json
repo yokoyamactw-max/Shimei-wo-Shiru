@@ -1,0 +1,11 @@
+{
+  "name": "shimei-wo-shiru",
+  "version": "0.1.0",
+  "description": "氏名・生年月日・出生時間・出生地から、和洋15占術を統合して匿名の鑑定師が「使命」を告げる鑑定書（PNG/PDF/HTML）をClaude Code内で生成するプラグイン",
+  "author": {
+    "name": "横山直広 / 株式会社キャッチザウェブ",
+    "email": "support@catchtheweb.co.jp"
+  },
+  "homepage": "https://github.com/catchtheweb/Shimei-wo-Shiru",
+  "keywords": ["divination", "fortune", "kantei", "seimei", "astrology", "japanese"]
+}

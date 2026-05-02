@@ -1,0 +1,16 @@
+.env
+output/
+profile/kantei-profile.md
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+data/ephemeris/*.se1
+
+# Vision鑑定の入力写真（個人情報）
+input/*.jpg
+input/*.jpeg
+input/*.png
+input/*.webp
+input/*.heic
+!input/.gitkeep

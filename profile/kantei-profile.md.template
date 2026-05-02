@@ -1,0 +1,64 @@
+---
+# 氏名（漢字必須、姓と名の間にスペース）
+name_kanji: 山田 太郎
+name_kana: やまだ たろう
+
+# ローマ字（数秘術用、ヘボン式で固定）
+name_romaji: YAMADA TARO
+
+# 生年月日（YYYY-MM-DD）
+birth_date: 1990-01-01
+
+# 出生時間（HH:MM、不明なら "unknown"）
+birth_time: "12:00"
+birth_time_known: true
+
+# 出生地
+birth_place: 東京都千代田区
+birth_lat: 35.6938
+birth_lon: 139.7536
+timezone: Asia/Tokyo
+
+# 性別（senjutsu.jp 取得時の入力に対応。M/F）
+gender: M
+
+# senjutsu.jp で取得したJSONのパス（必須）
+# 取得手順は /kantei-setup を参照
+senjutsu_json: input/horoscope_19900101_1200_M_tokyo.json
+
+# 個人化ソース（任意）
+obsidian_vault: ~/Documents/ObsidianVault
+memory_root: ~/.claude/projects
+
+# 出力先
+output_dir: output
+
+# 人相・手相鑑定（任意・オプトイン）
+# vision_consent を true にしたユーザーのみ Vision鑑定を実行する。
+# 写真は鑑定中のみ Claude API に送信され、ローカル以外には保存されません。
+vision_consent: false
+# photo_face: input/face.jpg          # 顔写真（正面・無表情・自然光、1024px以上推奨）
+# photo_hand_right: input/hand_R.jpg  # 利き手の手のひら（指を自然に開く、1024px以上）
+# photo_hand_left: input/hand_L.jpg   # 反対側の手（任意。両手あれば先天/現在を読み分け）
+
+# 実行する占術モジュール（コメントアウトで除外可）
+include_modules:
+  - seimei         # 姓名判断（自前・康熙字典固定）
+  - shichu         # 四柱推命（senjutsu.jp）
+  - shibun         # 紫微斗数（自前・lunar-python）
+  - astrology      # 西洋占星術（senjutsu.jp）
+  - vedic          # インド占星術（senjutsu.jp）
+  - numerology     # 数秘術（自前・ピタゴラス式）
+  - kyusei         # 九星気学（自前）
+  - shukuyo        # 宿曜占星術（senjutsu.jp の月ナクシャトラ流用）
+  - sanmei         # 算命学（senjutsu.jp命式 + 自前で高尾流主星/従星）
+  - biorhythm      # バイオリズム（自前）
+  - maya           # マヤ暦：銀河のマヤ流（自前）
+  # - ninsou       # 人相（麻衣相法・Vision必要・vision_consent: true で有効化）
+  # - tesou        # 手相（西洋＋日本手相術・Vision必要・vision_consent: true で有効化）
+---
+
+# 鑑定プロフィール
+
+このファイルは `/kantei-setup` で生成されます。
+鑑定師は frontmatter のみを参照します。本文は自由記述欄です。

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>氏名鑑定書</title>
+<style>
+@page { size: A4 portrait; margin: 18mm 16mm; }
+:root {
+  --ink: #1a1208;
+  --gold: #a07a2a;
+  --crimson: #6b1a1a;
+  --paper: #f5efe2;
+  --line: #c8b88a;
+}
+body {
+  font-family: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  color: var(--ink);
+  background: var(--paper);
+  font-size: 10.5pt;
+  line-height: 1.7;
+  margin: 0;
+}
+h1, h2, h3 { font-weight: 600; letter-spacing: 0.05em; }
+h1 {
+  font-size: 28pt; text-align: center; letter-spacing: 0.4em;
+  border-top: 3px double var(--gold); border-bottom: 3px double var(--gold);
+  padding: 18pt 0; margin: 8pt 0 24pt;
+}
+h2 {
+  font-size: 14pt; color: var(--crimson);
+  border-left: 4px solid var(--crimson); padding-left: 10pt;
+  margin-top: 24pt; page-break-after: avoid;
+}
+h3 { font-size: 11.5pt; color: var(--gold); margin-top: 14pt; }
+.cover-meta {
+  text-align: center; margin-bottom: 30pt; line-height: 2.0;
+}
+.cover-meta .name { font-size: 22pt; letter-spacing: 0.5em; margin: 16pt 0; }
+.cover-meta .info { font-size: 11pt; color: #5a4a30; }
+.headline {
+  font-size: 14pt; text-align: center; padding: 14pt; margin: 18pt 0;
+  border: 1px solid var(--gold); background: rgba(160,122,42,0.06);
+  letter-spacing: 0.1em;
+}
+.constitution {
+  text-align: justify; padding: 0 6pt; margin-bottom: 18pt;
+}
+.section { margin-bottom: 14pt; }
+.module-summary {
+  font-size: 9.5pt; color: #5a4a30; padding: 6pt 8pt;
+  background: rgba(200,184,138,0.18); border-radius: 2pt;
+  margin-bottom: 6pt;
+}
+ul.findings { padding-left: 20pt; margin: 6pt 0; }
+ul.findings li { margin-bottom: 3pt; }
+.numbered { counter-reset: item; padding: 0; list-style: none; }
+.numbered li {
+  position: relative; padding-left: 28pt; margin-bottom: 10pt;
+}
+.numbered li::before {
+  counter-increment: item;
+  content: "第" counter(item, cjk-ideographic) "";
+  position: absolute; left: 0; color: var(--crimson); font-weight: 600;
+}
+.life-phases { width: 100%; border-collapse: collapse; margin: 8pt 0; }
+.life-phases th, .life-phases td { padding: 6pt 8pt; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.life-phases th { background: rgba(160,122,42,0.1); width: 14%; }
+.lucky-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8pt; margin: 8pt 0; }
+.lucky-grid div { border: 1px solid var(--line); padding: 6pt 8pt; text-align: center; }
+.lucky-grid .label { font-size: 8pt; color: var(--gold); }
+.lucky-grid .value { font-size: 11pt; margin-top: 2pt; }
+.closing {
+  margin-top: 24pt; padding: 14pt; border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold);
+  font-size: 12pt; text-align: center; letter-spacing: 0.1em;
+}
+.footer-stamp { text-align: right; margin-top: 18pt; font-size: 9pt; color: #5a4a30; }
+.kakubl { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4pt; margin: 8pt 0; }
+.kakubl div { border: 1px solid var(--line); padding: 4pt; text-align: center; font-size: 9pt; }
+.kakubl .name { color: var(--gold); }
+.kakubl .val { font-size: 13pt; font-weight: 600; }
+.warning { color: var(--crimson); font-size: 9pt; }
+.page-break { page-break-before: always; }
+</style>
+</head>
+<body>
+
+<h1>氏 名 鑑 定 書</h1>
+
+<div class="cover-meta">
+  <div class="name">{{NAME_KANJI}}</div>
+  <div class="info">
+    生年月日: {{BIRTH_DATE}} {{BIRTH_TIME}}<br>
+    出生地: {{BIRTH_PLACE}}<br>
+    発行日: {{ISSUED_AT}}
+  </div>
+</div>
+
+<div class="headline">{{HEADLINE}}</div>
+
+<h2>命の本質</h2>
+<div class="constitution">{{CONSTITUTION}}</div>
+
+<h2>使命</h2>
+<ol class="numbered">{{MISSION_ITEMS}}</ol>
+
+<h2>天賦の才</h2>
+<ol class="numbered">{{TALENTS_ITEMS}}</ol>
+
+<h2>取り組むべきこと</h2>
+<ol class="numbered">{{TODO_ITEMS}}</ol>
+
+<h2>避けるべき罠</h2>
+<ol class="numbered">{{WARNING_ITEMS}}</ol>
+
+<div class="page-break"></div>
+
+<h2>各占術所見</h2>
+{{MODULE_SECTIONS}}
+
+<div class="page-break"></div>
+
+<h2>人生の山場</h2>
+<table class="life-phases">
+<tbody>{{LIFE_PHASES_ROWS}}</tbody>
+</table>
+
+<h2>当日のバイオリズム</h2>
+<div class="module-summary">{{BIORHYTHM_SUMMARY}}</div>
+
+<h2>ラッキー要素</h2>
+<div class="lucky-grid">{{LUCKY_GRID}}</div>
+
+<div class="closing">{{CLOSING}}</div>
+
+<div class="footer-stamp">
+  Shimei-wo-Shiru / 鑑定発行: {{ISSUED_AT}}
+</div>
+
+</body>
+</html>

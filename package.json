@@ -1,0 +1,12 @@
+{
+  "name": "shimei-wo-shiru-render",
+  "version": "0.1.0",
+  "description": "Puppeteerレンダラ for Shimei-wo-Shiru",
+  "private": true,
+  "scripts": {
+    "render": "node tools/render.js"
+  },
+  "dependencies": {
+    "puppeteer": "^23.0.0"
+  }
+}
