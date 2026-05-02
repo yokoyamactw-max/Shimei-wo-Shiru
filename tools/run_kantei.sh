@@ -34,8 +34,8 @@ python3 "$REPO_ROOT/tools/numerology.py" --input "$SUBJECT" > "$TMPDIR/numerolog
 python3 "$REPO_ROOT/tools/kyusei.py"     --input "$SUBJECT" > "$TMPDIR/kyusei.json"
 python3 "$REPO_ROOT/tools/biorhythm.py"  --input "$SUBJECT" > "$TMPDIR/biorhythm.json"
 python3 "$REPO_ROOT/tools/maya.py"       --input "$SUBJECT" > "$TMPDIR/maya.json"
-
-# shibun (紫微斗数) と sanmei (主星/従星) は Phase 1.5 で実装
+python3 "$REPO_ROOT/tools/shibun.py"     --input "$SUBJECT" > "$TMPDIR/shibun.json"   || echo '{"module":"shibun","error":true}' > "$TMPDIR/shibun.json"
+python3 "$REPO_ROOT/tools/sanmei.py"     --input "$SUBJECT" --senjutsu "$SENJUTSU" > "$TMPDIR/sanmei.json"
 
 echo "[kantei-engine] modules.json 集約..." >&2
 SUBJECT_FILE="$SUBJECT" TMPDIR="$TMPDIR" WORKDIR="$WORKDIR" python3 <<'PYEOF'
@@ -47,7 +47,8 @@ with open(os.environ["SUBJECT_FILE"], encoding="utf-8") as f:
 modules = {}
 errors = []
 keys = ["astrology","vedic","shichu","shukuyo","sanmei_meishiki",
-        "seimei","numerology","kyusei","biorhythm","maya"]
+        "seimei","numerology","kyusei","biorhythm","maya",
+        "shibun","sanmei"]
 for k in keys:
     p = f"{tmp}/{k}.json"
     try:
@@ -56,13 +57,9 @@ for k in keys:
     except Exception as e:
         errors.append({"module": k, "error": str(e)})
 
-# 算命学 命式部だけは sanmei_meishiki として持っておく
-if "sanmei_meishiki" in modules:
-    modules["sanmei"] = {
-        **modules["sanmei_meishiki"],
-        "module": "sanmei",
-        "label": "算命学（命式のみ・主星/従星はPhase 1.5で対応）",
-    }
+# sanmei_meishiki は内部用の中間データなので、最終的には sanmei が上書き
+if "sanmei" in modules and "sanmei_meishiki" in modules:
+    del modules["sanmei_meishiki"]
 
 agg = {"subject": subject, "modules": modules, "errors": errors}
 with open(f"{workdir}/modules.json", "w", encoding="utf-8") as f:
