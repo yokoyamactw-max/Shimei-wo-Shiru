@@ -7,6 +7,13 @@
 
 ---
 
+## サンプル鑑定書
+
+[![sample](docs/sample/kantei_preview.png)](docs/sample/kantei.pdf)
+
+被鑑定者を架空人物 `鑑定 太郎` に置換したサンプル鑑定書を [`docs/sample/`](docs/sample/) に置いています。
+画像をクリックでフルPDF（A4 5ページ）が開きます。
+
 ## できること
 
 - 氏名（漢字）・生年月日・出生時間・出生地から個別の鑑定書を生成
