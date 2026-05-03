@@ -185,6 +185,44 @@ function renderOtherModuleCards(modules, exclude) {
     }).join('');
 }
 
+function renderModuleDetail(detail) {
+  if (!detail) return '<div class="module-card"><div class="summary">（詳細データなし）</div></div>';
+  const what = detail.what_it_shows ? `<div class="what">${esc(detail.what_it_shows)}</div>` : '';
+  const result = detail.your_result ? `<div class="your-result">${esc(detail.your_result)}</div>` : '';
+  const points = detail.key_points && detail.key_points.length
+    ? `<ul class="key-points">${detail.key_points.map(p => `<li>${esc(p)}</li>`).join('')}</ul>`
+    : '';
+  const how = detail.how_to_use ? `<div class="how-to-use">${esc(detail.how_to_use)}</div>` : '';
+  return what + result + points + how;
+}
+
+function renderVisionObservations(detail) {
+  if (!detail || !detail.detailed_observations) return '';
+  return detail.detailed_observations.map(obs =>
+    `<div class="obs">` +
+    `<h4>${esc(obs.area || '')}</h4>` +
+    (obs.explanation ? `<div class="exp">${esc(obs.explanation)}</div>` : '') +
+    (obs.your_finding ? `<div class="find">${esc(obs.your_finding)}</div>` : '') +
+    (obs.meaning ? `<div class="meaning">${esc(obs.meaning)}</div>` : '') +
+    `</div>`
+  ).join('');
+}
+
+function renderOtherModuleDetails(details, exclude) {
+  // 第四章前半・後半で個別ページ化していない占術の詳細を集約
+  const labels = {
+    shibun: '紫微斗数', astrology: '西洋占星術', vedic: 'インド占星術',
+    numerology: '数秘術', shukuyo: '宿曜占星術', sanmei: '算命学',
+    biorhythm: 'バイオリズム',
+  };
+  return Object.entries(labels)
+    .filter(([k]) => !exclude.includes(k) && details[k])
+    .map(([k, label]) =>
+      `<h2>${esc(label)}</h2>` +
+      `<div class="module-detail">${renderModuleDetail(details[k])}</div>`
+    ).join('');
+}
+
 function renderGlossary() {
   const terms = [
     ['五行', '木・火・土・金・水の5要素で世界を分類する考え方。あなたの持つ性質を読み解く道具です。'],
@@ -221,6 +259,12 @@ async function main() {
   const modules = JSON.parse(fs.readFileSync(path.join(workdir, 'modules.json'), 'utf-8'));
   const subject = JSON.parse(fs.readFileSync(path.join(workdir, 'subject.json'), 'utf-8'));
 
+  // モジュール詳細解説 (任意・無くてもレンダーは続行)
+  const detailPath = path.join(workdir, 'kantei_modules_detail.json');
+  const details = fs.existsSync(detailPath)
+    ? JSON.parse(fs.readFileSync(detailPath, 'utf-8'))
+    : {};
+
   const tpl = fs.readFileSync(path.join(repoRoot, 'templates', 'kantei_plain.html'), 'utf-8');
 
   const coverPath = path.join(workdir, 'images', 'cover.png');
@@ -245,10 +289,17 @@ async function main() {
     TODO_ITEMS: renderItems(kantei.todo_now),
     WARNING_ITEMS: renderItems(kantei.warnings),
     FOUR_PILLARS: renderFourPillars(m.shichu),
-    SHICHU_SUMMARY: esc(m.shichu?.summary || '—'),
+    SHICHU_DETAIL: renderModuleDetail(details.shichu),
     KYUSEI_GRID: renderKyuseiGrid(m.kyusei),
-    KYUSEI_SUMMARY: esc(m.kyusei?.summary || '—'),
+    KYUSEI_DETAIL: renderModuleDetail(details.kyusei),
     MAYA_BLOCK: renderMayaBlock(m.maya),
+    MAYA_DETAIL: renderModuleDetail(details.maya),
+    SEIMEI_DETAIL: renderModuleDetail(details.seimei),
+    OTHER_MODULE_DETAILS: renderOtherModuleDetails(details, ['shichu', 'kyusei', 'maya', 'seimei', 'ninsou', 'tesou']),
+    NINSOU_DETAIL: renderModuleDetail(details.ninsou),
+    NINSOU_OBS: renderVisionObservations(details.ninsou),
+    TESOU_DETAIL: renderModuleDetail(details.tesou),
+    TESOU_OBS: renderVisionObservations(details.tesou),
     OTHER_MODULE_SECTIONS: renderOtherModuleCards(m, ['shichu', 'kyusei', 'maya', 'biorhythm']),
     LIFE_PHASES_ROWS: renderLifePhases(kantei.life_phases),
     BIORHYTHM_SVG: renderBiorhythmSVG(m.biorhythm),

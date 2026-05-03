@@ -407,6 +407,132 @@ ol.numbered li .why::before {
   color: var(--ink-soft);
   margin-bottom: 4pt;
 }
+
+/* 詳細モジュール解説 */
+.module-detail {
+  margin: 12pt 0 16pt;
+  padding: 0;
+  page-break-inside: avoid;
+}
+.module-detail h3 {
+  font-family: "Shippori Mincho", serif;
+  font-size: 13pt;
+  color: var(--crimson);
+  margin: 0 0 6pt;
+  padding: 6pt 10pt;
+  background: var(--soft-bg);
+  border-left: 4pt solid var(--crimson);
+}
+.module-detail .what {
+  font-size: 9pt;
+  color: var(--ink-soft);
+  background: rgba(160,122,42,0.05);
+  padding: 6pt 10pt;
+  border-radius: 2pt;
+  margin: 0 0 8pt;
+  line-height: 1.7;
+}
+.module-detail .what::before {
+  content: "🔍 この占術は何を見るか: ";
+  font-weight: 700;
+  color: var(--gold);
+}
+.module-detail .your-result {
+  margin: 6pt 0;
+  padding: 0 4pt;
+  font-size: 10pt;
+  line-height: 1.85;
+}
+.module-detail .your-result::before {
+  content: "あなたの場合";
+  display: block;
+  font-weight: 700;
+  color: var(--crimson);
+  font-size: 10pt;
+  margin-bottom: 4pt;
+  padding-bottom: 2pt;
+  border-bottom: 1pt dotted var(--line);
+}
+.module-detail .key-points {
+  margin: 8pt 0;
+  padding: 8pt 12pt 8pt 30pt;
+  background: rgba(160,122,42,0.06);
+  border-radius: 2pt;
+}
+.module-detail .key-points::before {
+  content: "ポイント";
+  display: block;
+  margin-left: -18pt;
+  margin-bottom: 4pt;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 10pt;
+}
+.module-detail .key-points li {
+  font-size: 9.5pt;
+  line-height: 1.7;
+  margin-bottom: 4pt;
+}
+.module-detail .how-to-use {
+  margin: 6pt 0 0;
+  padding: 8pt 10pt;
+  border: 1pt solid var(--gold-light);
+  background: var(--paper);
+  font-size: 9.5pt;
+  line-height: 1.8;
+}
+.module-detail .how-to-use::before {
+  content: "💡 活かし方";
+  display: block;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 3pt;
+}
+
+/* Vision詳細観察テーブル */
+.vision-obs {
+  margin: 8pt 0;
+}
+.vision-obs .obs {
+  margin-bottom: 8pt;
+  padding: 6pt 10pt;
+  background: var(--paper);
+  border: 1pt solid var(--line);
+  border-radius: 2pt;
+}
+.vision-obs .obs h4 {
+  margin: 0 0 4pt;
+  color: var(--crimson);
+  font-size: 10pt;
+}
+.vision-obs .obs .exp {
+  font-size: 8.5pt;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-bottom: 4pt;
+}
+.vision-obs .obs .find {
+  font-size: 9.5pt;
+  margin-bottom: 4pt;
+  line-height: 1.75;
+}
+.vision-obs .obs .find::before {
+  content: "あなたの場合: ";
+  font-weight: 700;
+  color: var(--gold);
+}
+.vision-obs .obs .meaning {
+  font-size: 9pt;
+  background: var(--soft-bg);
+  padding: 4pt 8pt;
+  border-radius: 2pt;
+  line-height: 1.7;
+}
+.vision-obs .obs .meaning::before {
+  content: "意味: ";
+  font-weight: 700;
+  color: var(--crimson);
+}
 </style>
 </head>
 <body>
@@ -469,27 +595,57 @@ ol.numbered li .why::before {
 
 <!-- 第四章 占術別所見 + 図解 -->
 <div class="page">
-  <h1 class="section-title">第 四 章 　 占 い か ら 見 た あ な た</h1>
+  <h1 class="section-title">第 四 章 　 占 い か ら 見 た あ な た（前 半）</h1>
 
   <h2>四柱推命（生まれた瞬間の干支）</h2>
   <div class="four-pillars">{{FOUR_PILLARS}}</div>
-  <div class="module-card">
-    <div class="summary">{{SHICHU_SUMMARY}}</div>
-  </div>
+  <div class="module-detail">{{SHICHU_DETAIL}}</div>
 
   <h2>九星気学（生まれた年の星）</h2>
   <div class="kyusei-grid">{{KYUSEI_GRID}}</div>
-  <div class="module-card">
-    <div class="summary">{{KYUSEI_SUMMARY}}</div>
-  </div>
+  <div class="module-detail">{{KYUSEI_DETAIL}}</div>
+
+  <div class="colophon">第四章 — Shimei-wo-Shiru</div>
+</div>
+
+<div class="page">
+  <h1 class="section-title">第 四 章 　 占 い か ら 見 た あ な た（後 半）</h1>
 
   <h2>マヤ暦（あなたのKIN）</h2>
   <div class="maya-block">{{MAYA_BLOCK}}</div>
+  <div class="module-detail">{{MAYA_DETAIL}}</div>
 
-  <h2>その他の占術所見</h2>
-  {{OTHER_MODULE_SECTIONS}}
+  <h2>姓名判断（お名前から見たあなた）</h2>
+  <div class="module-detail">{{SEIMEI_DETAIL}}</div>
 
   <div class="colophon">第四章 — Shimei-wo-Shiru</div>
+</div>
+
+<div class="page">
+  <h1 class="section-title">第 四 章 補 　 そ の 他 の 占 い</h1>
+
+  {{OTHER_MODULE_DETAILS}}
+
+  <div class="colophon">第四章補 — Shimei-wo-Shiru</div>
+</div>
+
+<!-- 第四章特別 人相・手相 詳細 -->
+<div class="page">
+  <h1 class="section-title">第 四 章 特 別 　 人 相 と 手 相</h1>
+
+  <h2>人相（お顔から見たあなた）</h2>
+  <div class="module-detail">{{NINSOU_DETAIL}}</div>
+  <div class="vision-obs">{{NINSOU_OBS}}</div>
+
+  <div class="colophon">人相 — Shimei-wo-Shiru</div>
+</div>
+
+<div class="page">
+  <h2>手相（手のひらから見たあなた）</h2>
+  <div class="module-detail">{{TESOU_DETAIL}}</div>
+  <div class="vision-obs">{{TESOU_OBS}}</div>
+
+  <div class="colophon">手相 — Shimei-wo-Shiru</div>
 </div>
 
 <!-- 第五章 山場 + バイオリズム + ラッキー -->
