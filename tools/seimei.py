@@ -41,29 +41,50 @@ def to_gogyo(n: int) -> str:
     return "水"
 
 
-def load_dict(repo_root: Path) -> dict:
-    p = repo_root / "data" / "kakusu.json"
-    return json.loads(p.read_text(encoding="utf-8"))["table"]
+def load_dict(repo_root: Path) -> tuple[dict, dict]:
+    """補正テーブル(優先) と Unihan(フォールバック) の両方を返す。"""
+    overrides_path = repo_root / "data" / "kakusu.json"
+    unihan_path = repo_root / "data" / "kakusu_unihan.json"
+
+    overrides = {}
+    if overrides_path.exists():
+        overrides = json.loads(overrides_path.read_text(encoding="utf-8")).get("table", {})
+
+    unihan = {}
+    if unihan_path.exists():
+        unihan = json.loads(unihan_path.read_text(encoding="utf-8")).get("table", {})
+
+    return overrides, unihan
 
 
-def count_strokes(name: str, table: dict) -> tuple[list[int], list[str]]:
+def lookup_stroke(ch: str, overrides: dict, unihan: dict) -> int | None:
+    """補正テーブル → Unihan の順で画数を引く。"""
+    if ch in overrides and isinstance(overrides[ch], int):
+        return overrides[ch]
+    if ch in unihan and isinstance(unihan[ch], int):
+        return unihan[ch]
+    return None
+
+
+def count_strokes(name: str, overrides: dict, unihan: dict) -> tuple[list[int], list[str]]:
     """各文字の画数リストと、辞書未収録文字のリストを返す。"""
     counts = []
     unknown = []
     for ch in name:
         if ch in (" ", "　"):
             continue
-        if ch in table and not str(ch).startswith("_") and isinstance(table[ch], int):
-            counts.append(table[ch])
+        s = lookup_stroke(ch, overrides, unihan)
+        if s is not None:
+            counts.append(s)
         else:
             counts.append(None)
             unknown.append(ch)
     return counts, unknown
 
 
-def compute(sei: str, mei: str, table: dict) -> dict:
-    sei_counts, sei_unknown = count_strokes(sei, table)
-    mei_counts, mei_unknown = count_strokes(mei, table)
+def compute(sei: str, mei: str, overrides: dict, unihan: dict) -> dict:
+    sei_counts, sei_unknown = count_strokes(sei, overrides, unihan)
+    mei_counts, mei_unknown = count_strokes(mei, overrides, unihan)
     unknown = sei_unknown + mei_unknown
 
     def safe_sum(xs):
@@ -156,8 +177,8 @@ def main() -> int:
         sei = name[:1]
         mei = name[1:]
 
-    table = load_dict(Path(args.repo_root))
-    json.dump(compute(sei, mei, table), sys.stdout, ensure_ascii=False, indent=2)
+    overrides, unihan = load_dict(Path(args.repo_root))
+    json.dump(compute(sei, mei, overrides, unihan), sys.stdout, ensure_ascii=False, indent=2)
     print()
     return 0
 
