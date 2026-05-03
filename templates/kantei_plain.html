@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>氏名鑑定書（やさしい版）</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@400;500;700&family=Shippori+Mincho:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+@page { size: A4 portrait; margin: 0; }
+:root {
+  --ink: #1a1208;
+  --ink-soft: #3d2d1a;
+  --gold: #a07a2a;
+  --gold-light: #c8a05c;
+  --crimson: #6b1a1a;
+  --paper: #f7f1e3;
+  --line: #d6c898;
+  --soft-bg: #fbf6e9;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: "Noto Sans JP", "Yu Gothic", sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  font-size: 10.5pt;
+  line-height: 1.85;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+.serif { font-family: "Shippori Mincho", "Noto Serif JP", serif; }
+
+.page {
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  padding: 18mm 16mm;
+  page-break-after: always;
+  overflow: hidden;
+}
+.page:last-child { page-break-after: auto; }
+
+/* 表紙 */
+.cover {
+  padding: 0;
+  background-image: url('{{COVER_IMAGE}}');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.cover .title-jp {
+  font-family: "Shippori Mincho", serif;
+  font-weight: 900;
+  font-size: 36pt;
+  letter-spacing: 0.6em;
+  margin-top: -100pt;
+  margin-bottom: 14pt;
+  color: var(--ink);
+}
+.cover .subtitle {
+  font-size: 11pt;
+  color: var(--gold);
+  letter-spacing: 0.4em;
+  margin-bottom: 60pt;
+}
+.cover .name {
+  font-family: "Shippori Mincho", serif;
+  font-size: 26pt;
+  letter-spacing: 0.4em;
+  margin-bottom: 24pt;
+  font-weight: 600;
+}
+.cover .info {
+  font-size: 10.5pt;
+  line-height: 2.2;
+  color: var(--ink-soft);
+}
+.cover .info span { display: block; }
+.cover .seal {
+  position: absolute;
+  bottom: 60pt;
+  right: 80pt;
+  width: 48pt;
+  height: 48pt;
+  border: 1.5pt solid var(--crimson);
+  border-radius: 4pt;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8pt;
+  color: var(--crimson);
+  letter-spacing: 0.2em;
+  background: rgba(247,241,227,0.5);
+  font-weight: 700;
+  writing-mode: vertical-rl;
+}
+
+h1.section-title {
+  font-family: "Shippori Mincho", serif;
+  font-size: 20pt;
+  text-align: center;
+  letter-spacing: 0.3em;
+  border-top: 2.5pt double var(--gold);
+  border-bottom: 2.5pt double var(--gold);
+  padding: 12pt 0;
+  margin: 6pt 0 18pt;
+}
+h2 {
+  font-size: 13pt;
+  color: var(--crimson);
+  border-left: 4pt solid var(--crimson);
+  padding-left: 10pt;
+  margin: 18pt 0 8pt;
+  page-break-after: avoid;
+}
+h3 {
+  font-size: 11pt;
+  color: var(--gold);
+  margin: 12pt 0 4pt;
+}
+
+.intro {
+  background: var(--soft-bg);
+  border-left: 3pt solid var(--gold-light);
+  padding: 12pt 14pt;
+  margin: 10pt 0 16pt;
+  font-size: 10pt;
+  line-height: 1.9;
+  color: var(--ink-soft);
+}
+.headline-frame {
+  font-family: "Shippori Mincho", serif;
+  font-size: 14pt;
+  font-weight: 600;
+  text-align: center;
+  padding: 18pt 14pt;
+  margin: 16pt 0;
+  border: 1.2pt solid var(--gold);
+  border-top: 3pt double var(--gold);
+  border-bottom: 3pt double var(--gold);
+  background: rgba(160,122,42,0.05);
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+}
+.constitution {
+  text-align: justify;
+  padding: 0 6pt;
+  margin-bottom: 14pt;
+  line-height: 2.0;
+}
+
+ol.numbered { counter-reset: item; padding: 0; list-style: none; margin: 6pt 0 0; }
+ol.numbered li {
+  position: relative;
+  padding-left: 36pt;
+  margin-bottom: 14pt;
+  line-height: 1.85;
+}
+ol.numbered li::before {
+  counter-increment: item;
+  content: counter(item);
+  position: absolute;
+  left: 0;
+  top: 1pt;
+  width: 24pt;
+  height: 24pt;
+  border-radius: 50%;
+  background: var(--crimson);
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 11pt;
+}
+ol.numbered li b {
+  display: block;
+  font-size: 11.5pt;
+  color: var(--ink);
+  margin-bottom: 3pt;
+  font-weight: 700;
+}
+ol.numbered li .body { font-size: 10pt; line-height: 1.85; }
+ol.numbered li .why {
+  display: block;
+  margin-top: 4pt;
+  padding: 5pt 8pt;
+  font-size: 9pt;
+  background: var(--soft-bg);
+  border-left: 2pt solid var(--gold-light);
+  color: var(--ink-soft);
+  line-height: 1.7;
+}
+ol.numbered li .why::before {
+  content: "なぜそう言えるか: ";
+  font-weight: 700;
+  color: var(--gold);
+}
+
+/* Vision */
+.vision-summary {
+  background: linear-gradient(135deg, var(--soft-bg), var(--paper));
+  border: 1pt solid var(--line);
+  padding: 14pt;
+  margin: 12pt 0;
+  border-radius: 4pt;
+  font-size: 10pt;
+  line-height: 1.95;
+}
+
+/* 命式 4柱 */
+.four-pillars {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6pt;
+  margin: 8pt 0 14pt;
+  text-align: center;
+}
+.four-pillars .pillar {
+  border: 1pt solid var(--gold-light);
+  padding: 8pt 4pt;
+  background: var(--soft-bg);
+}
+.four-pillars .pillar .label {
+  font-size: 8pt;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+}
+.four-pillars .pillar .gz {
+  font-family: "Shippori Mincho", serif;
+  font-size: 18pt;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  margin: 4pt 0 2pt;
+}
+.four-pillars .pillar .meta { font-size: 7.5pt; color: var(--ink-soft); }
+
+/* 9星 */
+.kyusei-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2pt;
+  width: 180pt;
+  margin: 8pt auto;
+  font-family: "Shippori Mincho", serif;
+}
+.kyusei-grid .cell {
+  border: 1pt solid var(--line);
+  padding: 8pt 2pt;
+  text-align: center;
+  background: var(--paper);
+  font-size: 9pt;
+}
+.kyusei-grid .cell.honmei {
+  background: var(--crimson);
+  color: var(--paper);
+  font-weight: 700;
+}
+.kyusei-grid .cell .num {
+  display: block;
+  font-size: 14pt;
+  font-weight: 700;
+}
+
+/* バイオリズムSVG */
+.biorhythm-chart {
+  background: var(--soft-bg);
+  border: 1pt solid var(--line);
+  padding: 8pt;
+  margin: 10pt 0;
+}
+.biorhythm-chart svg { width: 100%; height: auto; }
+.bio-legend {
+  display: flex;
+  justify-content: center;
+  gap: 16pt;
+  font-size: 8.5pt;
+  margin-top: 4pt;
+}
+.bio-legend span { display: inline-flex; align-items: center; gap: 4pt; }
+.bio-legend .dot { width: 8pt; height: 8pt; border-radius: 50%; display: inline-block; }
+
+/* マヤ KIN */
+.maya-block {
+  display: flex;
+  align-items: center;
+  gap: 14pt;
+  background: var(--soft-bg);
+  padding: 12pt 14pt;
+  margin: 10pt 0;
+  border-radius: 4pt;
+  border: 1pt solid var(--line);
+}
+.maya-kin-badge {
+  flex: 0 0 auto;
+  width: 70pt;
+  height: 70pt;
+  border-radius: 50%;
+  background: var(--crimson);
+  color: var(--paper);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Shippori Mincho", serif;
+}
+.maya-kin-badge .kin { font-size: 8pt; opacity: 0.85; }
+.maya-kin-badge .num { font-size: 22pt; font-weight: 900; line-height: 1; }
+.maya-text { font-size: 10pt; line-height: 1.7; }
+.maya-text .seal { font-size: 12pt; font-weight: 700; color: var(--crimson); }
+
+.life-phases {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10pt 0;
+}
+.life-phases th, .life-phases td {
+  padding: 8pt 10pt;
+  border-bottom: 1pt solid var(--line);
+  text-align: left;
+  vertical-align: top;
+  font-size: 9.5pt;
+}
+.life-phases th {
+  background: rgba(160,122,42,0.1);
+  width: 16%;
+  color: var(--crimson);
+  font-weight: 700;
+}
+
+.lucky-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8pt;
+  margin: 10pt 0;
+}
+.lucky-grid > div {
+  border: 1pt solid var(--line);
+  padding: 8pt 6pt;
+  text-align: center;
+  background: var(--soft-bg);
+}
+.lucky-grid .label {
+  font-size: 8pt;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  margin-bottom: 4pt;
+}
+.lucky-grid .value {
+  font-size: 11pt;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.closing-frame {
+  margin-top: 24pt;
+  padding: 18pt 14pt;
+  border-top: 3pt double var(--gold);
+  border-bottom: 3pt double var(--gold);
+  font-family: "Shippori Mincho", serif;
+  font-size: 12pt;
+  text-align: center;
+  letter-spacing: 0.08em;
+  line-height: 2.0;
+  font-weight: 600;
+}
+
+.colophon {
+  position: absolute;
+  bottom: 14mm;
+  right: 16mm;
+  font-size: 8pt;
+  color: var(--ink-soft);
+  letter-spacing: 0.1em;
+}
+
+.glossary {
+  background: var(--soft-bg);
+  border: 1pt dashed var(--line);
+  padding: 10pt 14pt;
+  margin: 12pt 0;
+  font-size: 9pt;
+  line-height: 1.85;
+}
+.glossary dt { font-weight: 700; color: var(--gold); }
+.glossary dd { margin: 0 0 6pt 0; padding-left: 12pt; }
+
+.module-card {
+  margin-bottom: 10pt;
+  padding: 8pt 10pt;
+  border-left: 2pt solid var(--gold-light);
+  background: var(--soft-bg);
+}
+.module-card h3 {
+  color: var(--ink);
+  border-bottom: 1pt dotted var(--line);
+  padding-bottom: 3pt;
+  margin: 0 0 4pt;
+  font-size: 10.5pt;
+}
+.module-card .summary {
+  font-size: 9.5pt;
+  color: var(--ink-soft);
+  margin-bottom: 4pt;
+}
+</style>
+</head>
+<body>
+
+<!-- 表紙 -->
+<div class="page cover">
+  <div class="title-jp">氏名鑑定書</div>
+  <div class="subtitle">やさしい版</div>
+  <div class="name">{{NAME_KANJI}}</div>
+  <div class="info">
+    <span>生年月日　{{BIRTH_DATE}}　{{BIRTH_TIME}}</span>
+    <span>出生地　{{BIRTH_PLACE}}</span>
+    <span>発行日　{{ISSUED_AT}}</span>
+  </div>
+  <div class="seal">鑑定<br>之印</div>
+</div>
+
+<!-- 第一章 はじめに + 核心 + 命の本質 -->
+<div class="page">
+  <h1 class="section-title">第 一 章 　 あ な た の 本 質</h1>
+
+  <div class="intro">{{INTRO}}</div>
+
+  <div class="headline-frame">{{HEADLINE}}</div>
+
+  <h2>命の本質（あなたを一言で）</h2>
+  <div class="constitution">{{CONSTITUTION}}</div>
+
+  <h2>顔と手から見えるあなた</h2>
+  <div class="vision-summary">{{VISION_SUMMARY}}</div>
+
+  <div class="colophon">第一章 — Shimei-wo-Shiru</div>
+</div>
+
+<!-- 第二章 使命 + 才能 -->
+<div class="page">
+  <h1 class="section-title">第 二 章 　 使 命 と 才 能</h1>
+
+  <h2>あなたの使命（人生をかけて取り組む軸）</h2>
+  <ol class="numbered">{{MISSION_ITEMS}}</ol>
+
+  <h2>あなたの天賦の才（生まれ持った強み）</h2>
+  <ol class="numbered">{{TALENTS_ITEMS}}</ol>
+
+  <div class="colophon">第二章 — Shimei-wo-Shiru</div>
+</div>
+
+<!-- 第三章 行動 + 罠 -->
+<div class="page">
+  <h1 class="section-title">第 三 章 　 行 動 と 注 意 点</h1>
+
+  <h2>今すぐ取り組むべきこと</h2>
+  <ol class="numbered">{{TODO_ITEMS}}</ol>
+
+  <h2>避けるべき罠</h2>
+  <ol class="numbered">{{WARNING_ITEMS}}</ol>
+
+  <div class="colophon">第三章 — Shimei-wo-Shiru</div>
+</div>
+
+<!-- 第四章 占術別所見 + 図解 -->
+<div class="page">
+  <h1 class="section-title">第 四 章 　 占 い か ら 見 た あ な た</h1>
+
+  <h2>四柱推命（生まれた瞬間の干支）</h2>
+  <div class="four-pillars">{{FOUR_PILLARS}}</div>
+  <div class="module-card">
+    <div class="summary">{{SHICHU_SUMMARY}}</div>
+  </div>
+
+  <h2>九星気学（生まれた年の星）</h2>
+  <div class="kyusei-grid">{{KYUSEI_GRID}}</div>
+  <div class="module-card">
+    <div class="summary">{{KYUSEI_SUMMARY}}</div>
+  </div>
+
+  <h2>マヤ暦（あなたのKIN）</h2>
+  <div class="maya-block">{{MAYA_BLOCK}}</div>
+
+  <h2>その他の占術所見</h2>
+  {{OTHER_MODULE_SECTIONS}}
+
+  <div class="colophon">第四章 — Shimei-wo-Shiru</div>
+</div>
+
+<!-- 第五章 山場 + バイオリズム + ラッキー -->
+<div class="page">
+  <h1 class="section-title">第 五 章 　 こ れ か ら の 道</h1>
+
+  <h2>人生の5つの時期</h2>
+  <table class="life-phases">
+    <tbody>{{LIFE_PHASES_ROWS}}</tbody>
+  </table>
+
+  <h2>当日のバイオリズム</h2>
+  <div class="biorhythm-chart">{{BIORHYTHM_SVG}}</div>
+  <div class="bio-legend">
+    <span><span class="dot" style="background:#c0392b"></span>身体</span>
+    <span><span class="dot" style="background:#2980b9"></span>感情</span>
+    <span><span class="dot" style="background:#27ae60"></span>知性</span>
+    <span><span class="dot" style="background:#8e44ad"></span>直感</span>
+  </div>
+
+  <h2>ラッキー要素</h2>
+  <div class="lucky-grid">{{LUCKY_GRID}}</div>
+
+  <h2>占術用語ミニ解説</h2>
+  <dl class="glossary">{{GLOSSARY}}</dl>
+
+  <div class="closing-frame">{{CLOSING}}</div>
+  <div class="colophon">結 — {{ISSUED_AT}} 鑑定発行</div>
+</div>
+
+</body>
+</html>
