@@ -33,16 +33,37 @@ body {
 .page {
   position: relative;
   width: 210mm;
-  height: 297mm;
+  min-height: 297mm;
   padding: 18mm 16mm;
   page-break-after: always;
-  overflow: hidden;
 }
 .page:last-child { page-break-after: auto; }
+.page > h1.section-title:first-child { page-break-before: avoid; }
+
+/* 切れてはいけない要素 */
+h2 { page-break-after: avoid; }
+.module-detail,
+.module-card,
+.vision-obs .obs,
+.four-pillars,
+.kyusei-grid,
+.maya-block,
+.biorhythm-chart,
+.life-phases,
+.lucky-grid,
+.headline-frame,
+.closing-frame,
+.intro,
+.glossary,
+ol.numbered li {
+  page-break-inside: avoid;
+}
 
 /* 表紙 */
 .cover {
   padding: 0;
+  height: 297mm;
+  min-height: 297mm;
   background-image: url('{{COVER_IMAGE}}');
   background-size: cover;
   background-position: center;
@@ -370,9 +391,8 @@ ol.numbered li .why::before {
 }
 
 .colophon {
-  position: absolute;
-  bottom: 14mm;
-  right: 16mm;
+  margin-top: 24pt;
+  text-align: right;
   font-size: 8pt;
   color: var(--ink-soft);
   letter-spacing: 0.1em;
