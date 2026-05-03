@@ -20,16 +20,19 @@ description: フル鑑定書を生成する。引数なしで profile/kantei-pro
 - `senjutsu_json` で指定されたパスのファイルが存在するか確認。無ければ `/kantei-setup` Step 3 を再案内
 - 必要なPythonパッケージ確認: `python3 -c "import lunar_python"` がエラーなら `pip3 install --user --break-system-packages lunar-python` を案内
 
-### Step 2. 作業ディレクトリ準備
+### Step 2. 作業ディレクトリ準備 + subject.json 生成
 
 ```bash
+NAME=$(python3 tools/load_profile.py --print-key name_kanji | tr -d ' ')
 TODAY=$(date +%Y-%m-%d)
-NAME=<profile.name_kanji from spaces removed>
 WORKDIR=output/${TODAY}_${NAME}
-mkdir -p $WORKDIR
+mkdir -p "$WORKDIR"
+python3 tools/load_profile.py --out-subject "$WORKDIR/subject.json"
+SENJUTSU=$(python3 tools/load_profile.py --print-key senjutsu_json)
 ```
 
-profile から `subject.json` を組み立てて `$WORKDIR/subject.json` に保存。
+`tools/load_profile.py` が profile/kantei-profile.md の YAML frontmatter を読み、
+subject.json を組み立てる。
 
 ### Step 3. ユーザー文脈収集
 
@@ -39,7 +42,7 @@ profile から `subject.json` を組み立てて `$WORKDIR/subject.json` に保�
 ### Step 4. 計算層実行
 
 ```bash
-tools/run_kantei.sh $WORKDIR/subject.json <senjutsu_json> $WORKDIR
+tools/run_kantei.sh "$WORKDIR/subject.json" "$SENJUTSU" "$WORKDIR"
 ```
 
 `$WORKDIR/modules.json` が出力される。11占術が並ぶ。
