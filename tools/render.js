@@ -24,8 +24,8 @@ function esc(s) {
 function renderItems(items) {
   if (!items || !items.length) return '<li>—</li>';
   return items.map(it =>
-    `<li><b>${esc(it.title || '')}</b><br>${esc(it.body || '')}` +
-    (it.sources ? ` <span class="warning">(${it.sources.join('・')})</span>` : '') +
+    `<li><b>${esc(it.title || '')}</b>${esc(it.body || '')}` +
+    (it.sources ? ` <span class="src">— ${it.sources.join('・')}</span>` : '') +
     `</li>`
   ).join('');
 }
@@ -57,10 +57,10 @@ function renderModuleSection(mod) {
   const findings = (mod.key_findings || [])
     .map(f => `<li>${esc(f)}</li>`).join('');
   return `
-    <div class="section">
+    <div class="module-card">
       <h3>${esc(mod.label)}</h3>
-      <div class="module-summary">${esc(mod.summary)}</div>
-      ${findings ? `<ul class="findings">${findings}</ul>` : ''}
+      <div class="summary">${esc(mod.summary)}</div>
+      ${findings ? `<ul>${findings}</ul>` : ''}
     </div>`;
 }
 
@@ -91,7 +91,13 @@ async function main() {
     .filter(Boolean)
     .join('\n');
 
+  const coverPath = path.join(workdir, 'images', 'cover.png');
+  const coverUri = fs.existsSync(coverPath)
+    ? 'data:image/png;base64,' + fs.readFileSync(coverPath).toString('base64')
+    : '';
+
   const html = fillTemplate(tpl, {
+    COVER_IMAGE: coverUri,
     NAME_KANJI: esc(subject.name_kanji),
     BIRTH_DATE: esc(subject.birth_date),
     BIRTH_TIME: subject.birth_time_known ? esc(subject.birth_time) : '時刻不明',
